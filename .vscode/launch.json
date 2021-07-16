@@ -1,0 +1,43 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "type": "java",
+      "name": "Launch Current File",
+      "request": "launch",
+      "mainClass": "${file}",
+      "args": ["heads", "tails"]
+    },
+    {
+      "type": "java",
+      "name": "Launch App",
+      "request": "launch",
+      "mainClass": "App",
+      "projectName": "dsAlgo_96810394"
+    },
+    {
+      "type": "java",
+      "name": "Launch HelloGoodbye",
+      "request": "launch",
+      "mainClass": "HelloGoodbye",
+      "projectName": "dsAlgo_96810394"
+    },
+    {
+      "type": "java",
+      "name": "Launch HelloWorld",
+      "request": "launch",
+      "mainClass": "HelloWorld",
+      "projectName": "dsAlgo_96810394"
+    },
+    {
+      "type": "java",
+      "name": "Launch RandomWord",
+      "request": "launch",
+      "mainClass": "RandomWord",
+      "projectName": "dsAlgo_96810394"
+    }
+  ]
+}
