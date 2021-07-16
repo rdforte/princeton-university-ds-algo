@@ -1,4 +1,4 @@
-package Week1;
+package Part1.Week1;
 
 // Quick-find
 // takes quadratic time so therefore its too slow
