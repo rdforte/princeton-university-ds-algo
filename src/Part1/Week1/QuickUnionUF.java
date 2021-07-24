@@ -31,4 +31,5 @@ public class QuickUnionUF {
         int j = root(q);
         ids[i] = j;
     }
+
 }
