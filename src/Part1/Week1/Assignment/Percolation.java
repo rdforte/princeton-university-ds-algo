@@ -1,6 +1,8 @@
 package Part1.Week1.Assignment;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
+import java.util.*;
+import java.util.stream.*;
 
 public class Percolation {
 
@@ -15,13 +17,34 @@ public class Percolation {
               return ((row - 1) * N) + col;
        }
 
-       private int getNeighbouringSites(int row, int col) {
+       public int[] getNeighbouringSites(int row, int col) {
               int neighbours[] = new int[4]; // array can have 4 items max: above, below, left, right
 
-              // Above
+              // Above : pos 0
               if (row - 1 > 0) {
-                     int sitePosition
+                     int sitePosition = convertRowColToSitePosition(row - 1, col);
+                     neighbours[0] = sitePosition;
               }
+
+              // Below : pos 1
+              if (row + 1 <= N ) {
+                     int sitePosition = convertRowColToSitePosition(row + 1, col);
+                     neighbours[1] = sitePosition;
+              }
+
+              // Left : pos 2
+              if (col - 1 > 0) {
+                     int sitePosition = convertRowColToSitePosition(row, col - 1);
+                     neighbours[2] = sitePosition;
+              }
+
+              // Right : pos 3
+              if (col + 1 <= N) {
+                     int sitePosition = convertRowColToSitePosition(row, col + 1);
+                     neighbours[3] = sitePosition;
+              }
+
+              return Arrays.stream(neighbours).filter(n -> n != 0).toArray();
        }
        
        // creates n-by-n grid, with all sites initially blocked
@@ -76,5 +99,10 @@ public class Percolation {
        // test client (optional)
        public static void main(String[] args) {
               Percolation Perc = new Percolation(3);
+              int[] x = Perc.getNeighbouringSites(1, 1);
+              System.out.println(x[0]);
+              System.out.println(x[1]);
+              System.out.println(x[2]);
+              System.out.println(x[3]);
        }
 }
