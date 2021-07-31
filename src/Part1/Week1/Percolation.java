@@ -1,4 +1,4 @@
-package Part1.Week1.Assignment;
+package Part1.Week1;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 public class Percolation {

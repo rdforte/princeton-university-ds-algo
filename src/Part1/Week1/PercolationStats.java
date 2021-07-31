@@ -1,4 +1,4 @@
-package Part1.Week1.Assignment;
+package Part1.Week1;
 // The notation may be a little confusing, but just remember that square brackets mean the end point is included, and round parentheses mean it's excluded.
 import edu.princeton.cs.algs4.StdRandom;
 import edu.princeton.cs.algs4.StdStats;
