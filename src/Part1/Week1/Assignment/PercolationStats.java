@@ -6,7 +6,7 @@ import edu.princeton.cs.algs4.StdStats;
 public class PercolationStats {
 
     private int N;
-    private int trials;
+    private double trials;
     private double[] percolatedThresholds;
 
     // perform independent trials on an n-by-n grid
@@ -29,25 +29,40 @@ public class PercolationStats {
                 percolates = percolation.percolates();
             }
             }
-            percolatedThresholds[i] = threshold;
+            percolatedThresholds[i] = threshold / (N * N);
         }
     }
 
     // sample mean of percolation threshold
     public double mean() {
-
+        return StdStats.mean(percolatedThresholds);
     }
 
     // sample standard deviation of percolation threshold
-    public double stddev()
+    public double stddev() {
+        return StdStats.stddev(percolatedThresholds);
+    }
+
+    // The basis for calculating the confidence lo and hi
+    private double confidence() {
+        return (1.96 * stddev()) / Math.sqrt(trials);
+    }
 
     // low endpoint of 95% confidence interval
-    public double confidenceLo()
+    public double confidenceLo() {
+        return mean() - confidence();
+    }
 
     // high endpoint of 95% confidence interval
-    public double confidenceHi()
+    public double confidenceHi() {
+        return mean() + confidence();
+    }
 
    // test client (see below)
-   public static void main(String[] args)
+   public static void main(String[] args) {
+      PercolationStats percolation = new PercolationStats(Integer.parseInt(args[0]), Integer.parseInt(args[1])); 
+      System.out.printf("mean = %f\nstddev = %f\n95%% confidence interval = [%f, %f]\n",
+                percolation.mean(), percolation.stddev(), percolation.confidenceLo(), percolation.confidenceHi());
+   }
 
 }

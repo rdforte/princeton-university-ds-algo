@@ -1,13 +1,13 @@
 package Part1.Week1.Assignment;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-import java.util.*;
+// import java.util.*;
 public class Percolation {
 
        //  int[] sites;
-        boolean[] openSites;
-        int N;
-        WeightedQuickUnionUF unionFind;
+        private boolean[] openSites;
+        private int N;
+        private WeightedQuickUnionUF unionFind;
 
        /**
         * Takes a Row and a Col and then convets it to a single intiger for its place in the sites array
@@ -16,7 +16,7 @@ public class Percolation {
               return ((row - 1) * N) + col;
        }
 
-       public int[] getNeighbouringSites(int row, int col) {
+       private int[] getNeighbouringSites(int row, int col) {
               int neighbours[] = new int[4]; // array can have 4 items max: above, below, left, right
 
               // Above : pos 0
@@ -43,7 +43,16 @@ public class Percolation {
                      neighbours[3] = sitePosition;
               }
 
-              return Arrays.stream(neighbours).filter(n -> n != 0).toArray();
+              int neighbourLength = 0;
+              for (int i = 0; i < neighbours.length; i++) {
+                     if (neighbours[i] != 0) neighbourLength++;
+              }
+              int[] filteredNeighbours = new int[neighbourLength];
+              int insertIndex = 0;
+              for (int neighbour : neighbours) {
+                     filteredNeighbours[insertIndex++] = neighbour;
+              }
+              return neighbours;
        }
        
        // creates n-by-n grid, with all sites initially blocked
@@ -82,7 +91,6 @@ public class Percolation {
               // see if the neighbours are open
               // if they are open then connect
               for (int i : neighbours) {
-                     System.out.println(i);;
                      if (openSites[i]) unionFind.union(position, i);
               }
        }
@@ -121,21 +129,4 @@ public class Percolation {
               if (row < 1 || col < 1 || col > N * N || row > N * N) throw new IllegalArgumentException("row and col are out of bounds");
        }
    
-       // test client (optional)
-       public static void main(String[] args) {
-              Percolation Perc = new Percolation(3);
-              // int[] x = Perc.getNeighbouringSites(2, 2);
-              // System.out.println(x[0]);
-              // System.out.println(x[1]);
-              // System.out.println(x[2]);
-              // System.out.println(x[3]);
-              // System.out.println(Perc.sites.length);
-              Perc.open(2, 2);
-              Perc.open(2, 3);
-              Perc.open(1, 3);
-              // Perc.open(3, 1);
-              Perc.open(2, 1);
-              System.out.println(Perc.isFull(2, 1));
-              System.out.println(Perc.percolates());
-       }
 }
