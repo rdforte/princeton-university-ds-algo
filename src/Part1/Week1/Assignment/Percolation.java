@@ -99,6 +99,8 @@ public class Percolation {
        // is the site (row, col) full?
        public boolean isFull(int row, int col) {
               validate(row, col);
+              int position = this.convertRowColToSitePosition(row, col);
+              return unionFind.find(position) == unionFind.find(0);
        }
    
        // returns the number of open sites
@@ -133,8 +135,9 @@ public class Percolation {
               Perc.open(2, 2);
               Perc.open(2, 3);
               Perc.open(1, 3);
-              Perc.open(3, 1);
+              // Perc.open(3, 1);
               Perc.open(2, 1);
+              System.out.println(Perc.isFull(2, 1));
               System.out.println(Perc.percolates());
        }
 }
