@@ -2,8 +2,6 @@ package Part1.Week1.Assignment;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 import java.util.*;
-import java.util.stream.*;
-
 public class Percolation {
 
        //  int[] sites;
