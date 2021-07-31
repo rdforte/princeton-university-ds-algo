@@ -69,6 +69,7 @@ public class Percolation {
 
        // opens the site (row, col) if it is not open already
        public void open(int row, int col) {
+              validate(row, col);
               // first get the elements site position based on its row and col
               int position = this.convertRowColToSitePosition(row, col);
               // if already open return
@@ -78,43 +79,46 @@ public class Percolation {
               if (row == 1) unionFind.union(position, 0);
               // if in bottom row connect to n * n + 1
               if (row == N) unionFind.union(position, N * N + 1);
-
               // find the neighbouring sites in the grid n * n, dont worry about virtual nodes as they are connected in the above step
               int[] neighbours = getNeighbouringSites(row, col);
               // see if the neighbours are open
               // if they are open then connect
-              // System.out.println("---------------------");
-              // System.out.println(neighbours.length);
-              // System.out.println("--------------------");
               for (int i : neighbours) {
                      System.out.println(i);;
                      if (openSites[i]) unionFind.union(position, i);
-              }
-              // for testing purposes only
-              System.out.println("----------------------------------");
-              for (int i = 0; i < openSites.length; i++) {
-              System.out.println(unionFind.find(i));
               }
        }
    
        // is the site (row, col) open?
        public boolean isOpen(int row, int col) {
-
+              validate(row, col);
+              int position = this.convertRowColToSitePosition(row, col);
+              return openSites[position];
        }
    
        // is the site (row, col) full?
        public boolean isFull(int row, int col) {
-
+              validate(row, col);
        }
    
        // returns the number of open sites
        public int numberOfOpenSites() {
-       
+              int sitesCurrentlyOpen = 0;
+              // The grid is from 1 to N * N
+              for (int i = 1; i <= N * N; i++) {
+                     if (openSites[i]) sitesCurrentlyOpen++;
+              }
+              return sitesCurrentlyOpen;
        }
    
        // does the system percolate?
        public boolean percolates() {
               return unionFind.find(0) == unionFind.find(openSites.length - 1);
+       }
+
+       // method for validating whether the row and col are within the required bounds
+       private void validate(int row, int col) {
+              if (row < 1 || col < 1 || col > N * N || row > N * N) throw new IllegalArgumentException("row and col are out of bounds");
        }
    
        // test client (optional)
