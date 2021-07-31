@@ -1,7 +1,6 @@
 package Part1.Week1.Assignment;
 
 import edu.princeton.cs.algs4.WeightedQuickUnionUF;
-// import java.util.*;
 public class Percolation {
 
        //  int[] sites;
@@ -50,9 +49,11 @@ public class Percolation {
               int[] filteredNeighbours = new int[neighbourLength];
               int insertIndex = 0;
               for (int neighbour : neighbours) {
-                     filteredNeighbours[insertIndex++] = neighbour;
+                     if (neighbour != 0) {
+                            filteredNeighbours[insertIndex++] = neighbour;
+                     }
               }
-              return neighbours;
+              return filteredNeighbours;
        }
        
        // creates n-by-n grid, with all sites initially blocked
@@ -128,5 +129,4 @@ public class Percolation {
        private void validate(int row, int col) {
               if (row < 1 || col < 1 || col > N * N || row > N * N) throw new IllegalArgumentException("row and col are out of bounds");
        }
-   
 }
