@@ -6,9 +6,10 @@ import java.util.stream.*;
 
 public class Percolation {
 
-       private int[] sites;
-       private boolean[] openSites;
-       private int N;
+       //  int[] sites;
+        boolean[] openSites;
+        int N;
+        WeightedQuickUnionUF unionFind;
 
        /**
         * Takes a Row and a Col and then convets it to a single intiger for its place in the sites array
@@ -54,26 +55,46 @@ public class Percolation {
               N = n;
 
               int gridItemSize = n * n + 2; // adding two virtual layers to the top and bottom
-              sites = new int[gridItemSize];
+              // sites = new int[gridItemSize];
               openSites = new boolean[gridItemSize];
+              unionFind = new WeightedQuickUnionUF(gridItemSize);
 
               for (int i = 0; i < gridItemSize; i++) {
-                     sites[i] = i;
+                     // sites[i] = i;
                      if (i == 0 || i == gridItemSize - 1) openSites[i] = true;
                      else openSites[i] = false;
               }
 
-              System.out.println(openSites[9]);
        }
 
        // opens the site (row, col) if it is not open already
        public void open(int row, int col) {
+              // first get the elements site position based on its row and col
+              int position = this.convertRowColToSitePosition(row, col);
+              // if already open return
+              if (openSites[position]) return;
+              openSites[position] = true; // if it is not open then set it to open
               // if in top row connect to 0
+              if (row == 1) unionFind.union(position, 0);
               // if in bottom row connect to n * n + 1
+              if (row == N) unionFind.union(position, N * N + 1);
 
               // find the neighbouring sites in the grid n * n, dont worry about virtual nodes as they are connected in the above step
+              int[] neighbours = getNeighbouringSites(row, col);
               // see if the neighbours are open
               // if they are open then connect
+              // System.out.println("---------------------");
+              // System.out.println(neighbours.length);
+              // System.out.println("--------------------");
+              for (int i : neighbours) {
+                     System.out.println(i);;
+                     if (openSites[i]) unionFind.union(position, i);
+              }
+              // for testing purposes only
+              System.out.println("----------------------------------");
+              for (int i = 0; i < openSites.length; i++) {
+              System.out.println(unionFind.find(i));
+              }
        }
    
        // is the site (row, col) open?
@@ -88,21 +109,28 @@ public class Percolation {
    
        // returns the number of open sites
        public int numberOfOpenSites() {
-
+       
        }
    
        // does the system percolate?
        public boolean percolates() {
-
+              return unionFind.find(0) == unionFind.find(openSites.length - 1);
        }
    
        // test client (optional)
        public static void main(String[] args) {
               Percolation Perc = new Percolation(3);
-              int[] x = Perc.getNeighbouringSites(1, 1);
-              System.out.println(x[0]);
-              System.out.println(x[1]);
-              System.out.println(x[2]);
-              System.out.println(x[3]);
+              // int[] x = Perc.getNeighbouringSites(2, 2);
+              // System.out.println(x[0]);
+              // System.out.println(x[1]);
+              // System.out.println(x[2]);
+              // System.out.println(x[3]);
+              // System.out.println(Perc.sites.length);
+              Perc.open(2, 2);
+              Perc.open(2, 3);
+              Perc.open(1, 3);
+              Perc.open(3, 1);
+              Perc.open(2, 1);
+              System.out.println(Perc.percolates());
        }
 }
