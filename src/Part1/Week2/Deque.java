@@ -2,6 +2,8 @@ package Part1.Week2;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import edu.princeton.cs.algs4.StdOut;
+
 public class Deque<Item> implements Iterable<Item> {
 
     private class Node {
@@ -39,7 +41,7 @@ public class Deque<Item> implements Iterable<Item> {
 
     // construct an empty deque
     public Deque() {
-        first = null;
+        first = last = null;
     }
 
     // is the deque empty?
@@ -56,7 +58,6 @@ public class Deque<Item> implements Iterable<Item> {
     public void addFirst(Item item) {
         illegalItem(item);
         Node node = new Node(item);
-
         if (first == null)
             first = last = node;
         else {
@@ -84,20 +85,29 @@ public class Deque<Item> implements Iterable<Item> {
 
     // remove and return the item from the front
     public Item removeFirst() {
-        if (this.first == null) throw new NoSuchElementException();
+        noElementsError();     
         Node firstNode = first;
+
+        if (this.first.getNext() == null) {
+            first = last = null;
+        } else {
         this.first = firstNode.getNext();
-        if (this.first.getNext() == null) this.last = null;
+        if (this.first.getNext() == null) this.last = this.first;
+        }
         this.length--;
         return firstNode.getItem();
     };
 
     // remove and return the item from the back
     public Item removeLast() {
-        if (this.last == null) throw new NoSuchElementException();
+        if (this.last == null) noElementsError();
         Node currentLast = this.last;
-        this.last = this.last.getPrevious();
-        this.last.setNext(null);
+        if (this.last.previous == null) {
+            first = last = null;
+        } else {
+            this.last = this.last.getPrevious();
+            this.last.setNext(null);
+        }
         this.length--;
         return currentLast.getItem();
     };
@@ -108,15 +118,16 @@ public class Deque<Item> implements Iterable<Item> {
            Node current = first;
 
            public boolean hasNext() {
-               return current.next != null;
+               return current != null;
            };
 
            public Item next() {
                if (hasNext()) {
+                   Node currentNode = current;
                    current = current.getNext();
-                   return current.getPrevious().getItem();
+                   return currentNode.getItem();
                };
-               throw new NoSuchElementException();
+               throw new NoSuchElementException("No items to iterate");
            };
 
            public void remove() {
@@ -129,9 +140,27 @@ public class Deque<Item> implements Iterable<Item> {
         if (item == null) throw new IllegalArgumentException("Please provide an item that is of type Item");
     }
 
+    private void noElementsError() {
+        if (this.last == null || this.first == null)
+            throw new NoSuchElementException("There are no items to remove");
+    }
+
     // unit testing (required)
     public static void main(String[] args) {
-        
+        Deque<Integer> deque = new Deque<>();
+        deque.addFirst(1);
+        deque.addFirst(2);
+        deque.addFirst(3);
+        deque.addFirst(4);
+        deque.removeLast();
+        deque.removeLast();
+        deque.removeLast();
+        deque.removeLast();
+
+        for (int d : deque) {
+            StdOut.println(d);
+        }
+
     };
 
 }
